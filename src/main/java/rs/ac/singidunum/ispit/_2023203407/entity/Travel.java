@@ -10,6 +10,7 @@ import lombok.Setter;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 
 @Entity
@@ -31,15 +32,15 @@ public class Travel {
     private Driver driver;
 
     @NotNull(message = "Please provide travel date/time.")
-    private LocalDateTime travelAt;
+    private Instant travelAt;
 
     @Positive(message = "Mileage must be a positive integer.")
     private Integer mileage; // piše se mileage, ali je zapravo kilometraža
 
     @UpdateTimestamp
-    private LocalDateTime updatedAt;
+    private Instant updatedAt;
 
     @CreatedDate
     @Column(nullable = false, updatable = false)
-    private LocalDateTime createdAt;
+    private Instant createdAt;
 }
