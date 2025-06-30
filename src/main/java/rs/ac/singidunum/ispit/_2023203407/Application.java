@@ -1,4 +1,4 @@
-package rs.ac.singidunum.ispit._7;
+package rs.ac.singidunum.ispit._2023203407;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
