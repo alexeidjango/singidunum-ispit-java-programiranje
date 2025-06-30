@@ -1,12 +1,15 @@
-package rs.ac.singidunum.ispit._2023203407.controller;
+package rs.ac.singidunum.ispit._2023203407.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import rs.ac.singidunum.ispit._2023203407.entity.Car;
-import rs.ac.singidunum.ispit._2023203407.repository.CarRepository;
+import rs.ac.singidunum.ispit._2023203407.dto.CarDto;
+import rs.ac.singidunum.ispit._2023203407.entities.Car;
+import rs.ac.singidunum.ispit._2023203407.mappers.CarMapper;
+import rs.ac.singidunum.ispit._2023203407.repositories.CarRepository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/cars")
@@ -16,26 +19,23 @@ public class CarController {
     private final CarRepository carRepository;
 
     @GetMapping
-    public List<Car> getCars() {
-        return carRepository.findAll();
+    public List<CarDto> getCars() {
+        return carRepository.findAll().stream().map(CarMapper::toDto).collect(Collectors.toList());
     }
 
     @PostMapping
-    public ResponseEntity<Car> createCar(@RequestBody Car model) {
-        Car carEntity = new Car();
-        carEntity.setLicensePlate(model.getLicensePlate());
-        carEntity.setModel(model.getModel());
-        Car savedCarEntity = carRepository.save(carEntity);
-        return ResponseEntity.ok().body(savedCarEntity);
+    public ResponseEntity<CarDto> createCar(@RequestBody CarDto model) {
+        Car savedCarEntity = carRepository.save(CarMapper.toEntity(model));
+        return ResponseEntity.ok().body(CarMapper.toDto(savedCarEntity));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Car> updateCar(@PathVariable("id") Long carId, @RequestBody Car model) {
+    public ResponseEntity<CarDto> updateCar(@PathVariable("id") Long carId, @RequestBody CarDto model) {
         Car carEntity = carRepository.findById(carId).orElseThrow();
         carEntity.setLicensePlate(model.getLicensePlate());
         carEntity.setModel(model.getModel());
         Car savedCarEntity = carRepository.save(carEntity);
-        return ResponseEntity.ok().body(savedCarEntity);
+        return ResponseEntity.ok().body(CarMapper.toDto(savedCarEntity));
     }
 
     @DeleteMapping("/{id}")
