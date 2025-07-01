@@ -30,11 +30,8 @@ public class Travel {
     @JoinColumn(name = "driver_id", nullable = false)
     private Driver driver;
 
-//    @NotNull(message = "Please provide travel date/time.")
-//    private Instant travelAt;
-
-    @Positive(message = "Mileage must be a positive integer.")
-    private Integer mileage; // piše se mileage, ali je zapravo kilometraža
+    @Positive(message = "Distance must be positive.")
+    private Double distance;
 
     @CreatedDate
     @Column(nullable = false, updatable = false)

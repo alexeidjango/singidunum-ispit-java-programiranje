@@ -39,7 +39,7 @@ public class Driver {
     @UpdateTimestamp
     private Instant updatedAt;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "driver", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 //    @JoinColumn(name = "driver_id", nullable = false, referencedColumnName = "id")
     private List<Travel> travels;
 }

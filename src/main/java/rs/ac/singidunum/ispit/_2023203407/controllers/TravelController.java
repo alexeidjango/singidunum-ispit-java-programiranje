@@ -27,7 +27,7 @@ public class TravelController {
     @PostMapping
     public ResponseEntity<Travel> createTravel(@RequestBody Travel model) {
         Travel travelEntity = new Travel();
-        travelEntity.setMileage(model.getMileage());
+        travelEntity.setDistance(model.getDistance());
         Travel savedTravel = travelRepository.save(travelEntity);
         return ResponseEntity.ok().body(savedTravel);
     }

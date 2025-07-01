@@ -2,7 +2,10 @@ package rs.ac.singidunum.ispit._2023203407.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -12,6 +15,7 @@ import java.util.List;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
+@AllArgsConstructor
 @NoArgsConstructor
 @Setter
 @Getter
@@ -34,7 +38,6 @@ public class Car {
     @UpdateTimestamp
     private Instant updatedAt;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-//    @JoinColumn(name = "car_id",  nullable = false, referencedColumnName = "id")
+    @OneToMany(mappedBy = "car", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Travel> travels;
 }

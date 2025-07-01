@@ -15,4 +15,5 @@ public class CarDto {
     private String model;
     private String createdAt;
     private String updatedAt;
+    private Double distance;
 }
