@@ -1,4 +1,4 @@
-import type { Car } from "../types.ts";
+import type { Car } from "../../types.ts";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { FaPlus } from "react-icons/fa6";
