@@ -1,12 +1,6 @@
-import classNames from "classnames";
-import { SelectedTab } from "../../types.ts";
+import { Link } from "react-router";
 
-export interface NavBarProps {
-  selectedTab: SelectedTab;
-  onTabChange: (tab: SelectedTab) => void;
-}
-
-export const NavBar = ({ selectedTab, onTabChange }: NavBarProps) => (
+export const NavBar = () => (
   <nav className="navbar navbar-light bg-light">
     <div className="container-fluid justify-content-start">
       <a className="navbar-brand" href="#">
@@ -14,37 +8,19 @@ export const NavBar = ({ selectedTab, onTabChange }: NavBarProps) => (
       </a>
       <ul className="nav align-self-start d-flex">
         <li className="nav-item">
-          <button
-            type="button"
-            className={classNames("btn btn-link nav-link", {
-              active: selectedTab === SelectedTab.CARS,
-            })}
-            onClick={() => onTabChange(SelectedTab.CARS)}
-          >
+          <Link to={"/cars"} className="btn btn-link nav-link">
             Cars
-          </button>
+          </Link>
         </li>
         <li className="nav-item">
-          <button
-            type="button"
-            className={classNames("btn btn-link nav-link", {
-              active: selectedTab === SelectedTab.DRIVERS,
-            })}
-            onClick={() => onTabChange(SelectedTab.DRIVERS)}
-          >
+          <Link to="/drivers" className="btn btn-link nav-link">
             Drivers
-          </button>
+          </Link>
         </li>
         <li className="nav-item">
-          <button
-            type="button"
-            className={classNames("btn btn-link nav-link", {
-              active: selectedTab === SelectedTab.TRAVELS,
-            })}
-            onClick={() => onTabChange(SelectedTab.TRAVELS)}
-          >
+          <Link to="/travels" className="btn btn-link nav-link">
             Travels
-          </button>
+          </Link>
         </li>
       </ul>
     </div>

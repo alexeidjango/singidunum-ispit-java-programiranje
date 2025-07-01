@@ -1,16 +1,23 @@
-import { useState } from "react";
 import "./App.css";
-import { NavBar } from "./components/common/NavBar.tsx";
-import { SelectedTab } from "./types.ts";
+import { Route, Routes } from "react-router";
 import { Cars } from "./components/cars/Cars.tsx";
+import { Layout } from "./components/Layout.tsx";
+import { Drivers } from "./components/drivers/Drivers.tsx";
+import { Travels } from "./components/travels/Travels.tsx";
 
 function App() {
-  const [selectedTab, setSelectedTab] = useState(SelectedTab.CARS);
+  // const [selectedTab, setSelectedTab] = useState(SelectedTab.CARS);
   return (
-    <div className="container">
-      <NavBar selectedTab={selectedTab} onTabChange={setSelectedTab} />
-      {selectedTab === SelectedTab.CARS && <Cars />}
-    </div>
+    <Layout>
+      <Routes>
+        <Route path="/">
+          <Route index element={<Cars />} />
+          <Route path="cars" element={<Cars />} />
+          <Route path="drivers" element={<Drivers />} />
+          <Route path="travels" element={<Travels />} />
+        </Route>
+      </Routes>
+    </Layout>
   );
 }
 
