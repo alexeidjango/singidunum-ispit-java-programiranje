@@ -40,5 +40,4 @@ public class TravelController {
         Travel savedTravel = travelRepository.save(travelEntity);
         return ResponseEntity.ok().body(TravelMapper.toDto(savedTravel));
     }
-
 }
