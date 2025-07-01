@@ -1,6 +1,7 @@
 package rs.ac.singidunum.ispit._2023203407.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -31,6 +32,7 @@ public class Travel {
     @JoinColumn(name = "driver_id", nullable = false)
     private Driver driver;
 
+    @NotNull
     @Positive(message = "Distance must be positive.")
     private Double distance;
 
