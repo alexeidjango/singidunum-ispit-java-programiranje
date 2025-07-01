@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/cars")
-@CrossOrigin
+@CrossOrigin("*")
 @RequiredArgsConstructor
 public class CarController {
     private final CarRepository carRepository;
