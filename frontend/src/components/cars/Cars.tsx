@@ -1,4 +1,4 @@
-import type { Car } from "../../types.ts";
+import { API_BASE_URL, type Car } from "../../types.ts";
 import { FaPlus } from "react-icons/fa6";
 import useAxios from "axios-hooks";
 import { FaRegEdit } from "react-icons/fa";
@@ -6,7 +6,7 @@ import { DeleteCarAction } from "./actions/DeleteCarAction.tsx";
 
 export const Cars = () => {
   const [{ data: carsData, loading, error }, carsDataRefetch] = useAxios<Car[]>(
-    "http://localhost:8081/api/v1/cars",
+    `${API_BASE_URL}/cars`,
   );
   return (
     <>
@@ -16,6 +16,7 @@ export const Cars = () => {
           Dodaj vozilo
         </button>
       </div>
+      {loading && <p className="text-muted">Loading...</p>}
       {!loading && !error && (
         <table className="table table-hover text-start">
           <thead>

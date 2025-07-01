@@ -1,3 +1,7 @@
+export const API_BASE_URL = "http://localhost:8081/api/v1";
+
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-expect-error
 export enum SelectedTab {
   CARS = "cars",
   DRIVERS = "drivers",

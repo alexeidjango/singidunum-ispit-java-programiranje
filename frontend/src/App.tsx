@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "./App.css";
-import { NavBar } from "./components/NavBar.tsx";
+import { NavBar } from "./components/common/NavBar.tsx";
 import { SelectedTab } from "./types.ts";
 import { Cars } from "./components/cars/Cars.tsx";
 

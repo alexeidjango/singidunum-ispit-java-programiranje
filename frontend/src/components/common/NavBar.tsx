@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { SelectedTab } from "../types.ts";
+import { SelectedTab } from "../../types.ts";
 
 export interface NavBarProps {
   selectedTab: SelectedTab;

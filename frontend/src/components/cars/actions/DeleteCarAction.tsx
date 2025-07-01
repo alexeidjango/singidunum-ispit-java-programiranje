@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { RiDeleteBin6Line } from "react-icons/ri";
-import { Modal } from "react-bootstrap";
-import type { Car } from "../../../types.ts";
+import { API_BASE_URL, type Car } from "../../../types.ts";
 import useAxios from "axios-hooks";
+import { ModalConfirm } from "../../common/ModalConfirm.tsx";
 
 export interface DeleteCarProps {
   car: Car;
@@ -14,7 +14,7 @@ export const DeleteCarAction = ({ car, onSuccess }: DeleteCarProps) => {
   const [_, executeDelete] = useAxios(
     {
       method: "DELETE",
-      url: "http://localhost:8081/api/v1/cars/" + car.id,
+      url: `${API_BASE_URL}/cars/` + car.id,
     },
     {
       manual: true,
@@ -29,38 +29,24 @@ export const DeleteCarAction = ({ car, onSuccess }: DeleteCarProps) => {
       >
         <RiDeleteBin6Line />
       </button>
-      <Modal show={show}>
-        <Modal.Header>
-          <h3>Izbrisati auto?</h3>
-        </Modal.Header>
-        <Modal.Body>
-          <p>
+      <ModalConfirm
+        title="Izbrisati auto?"
+        body={
+          <>
             Da li ste sigurni da želite da izbrišete{" "}
             <strong>
               {car.model} ({car.licensePlate})
             </strong>
             ?
-          </p>
-        </Modal.Body>
-        <Modal.Footer>
-          <button
-            className="btn btn-secondary"
-            type="button"
-            onClick={() => setShow(false)}
-          >
-            Ne
-          </button>
-          <button
-            className="btn btn-danger"
-            type="button"
-            onClick={() => {
-              executeDelete().then(() => onSuccess());
-            }}
-          >
-            Da
-          </button>
-        </Modal.Footer>
-      </Modal>
+          </>
+        }
+        onCancel={() => setShow(false)}
+        onConfirm={() => {
+          executeDelete().then(() => onSuccess());
+        }}
+        confirmBtnClass="btn-danger"
+        show={show}
+      />
     </>
   );
 };
