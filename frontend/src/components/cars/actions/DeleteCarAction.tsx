@@ -31,22 +31,19 @@ export const DeleteCarAction = ({ car, onSuccess }: DeleteCarProps) => {
       </button>
       <ModalConfirm
         title="Izbrisati auto?"
-        body={
-          <>
-            Da li ste sigurni da želite da izbrišete{" "}
-            <strong>
-              {car.model} ({car.licensePlate})
-            </strong>
-            ?
-          </>
-        }
         onCancel={() => setShow(false)}
         onConfirm={() => {
           executeDelete().then(() => onSuccess());
         }}
         confirmBtnClass="btn-danger"
         show={show}
-      />
+      >
+        Da li ste sigurni da želite da izbrišete{" "}
+        <strong>
+          {car.model} ({car.licensePlate})
+        </strong>
+        ?
+      </ModalConfirm>
     </>
   );
 };

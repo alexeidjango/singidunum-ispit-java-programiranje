@@ -1,8 +1,8 @@
 import { Modal } from "react-bootstrap";
 import classNames from "classnames";
+import type { PropsWithChildren } from "react";
 
-export interface ModalConfirmProps {
-  body?: React.ReactElement | string;
+export interface ModalConfirmProps extends PropsWithChildren {
   title?: React.ReactElement | string;
   onCancel: () => void;
   onConfirm: () => void;
@@ -11,21 +11,19 @@ export interface ModalConfirmProps {
 }
 
 export const ModalConfirm = ({
-  body,
   title,
   confirmBtnClass,
   show,
   onConfirm,
   onCancel,
+  children,
 }: ModalConfirmProps) => {
   return (
     <Modal show={show}>
       <Modal.Header>
         <h3>{title}</h3>
       </Modal.Header>
-      <Modal.Body>
-        <p>{body}</p>
-      </Modal.Body>
+      <Modal.Body>{children}</Modal.Body>
       <Modal.Footer>
         <button
           className="btn btn-secondary"
