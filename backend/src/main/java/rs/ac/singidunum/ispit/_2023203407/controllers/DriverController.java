@@ -13,7 +13,6 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/drivers")
-@CrossOrigin
 @RequiredArgsConstructor
 public class DriverController {
     private final DriverRepository driverRepository;

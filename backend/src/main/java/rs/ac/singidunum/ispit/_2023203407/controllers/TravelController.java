@@ -17,7 +17,6 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/travels")
-@CrossOrigin
 @RequiredArgsConstructor
 public class TravelController {
     private final TravelRepository travelRepository;
