@@ -1,9 +1,10 @@
 import { API_BASE_URL, type Car } from "../../types.ts";
-import { FaPlus } from "react-icons/fa6";
+import { FaPlus, FaScrewdriverWrench } from "react-icons/fa6";
 import useAxios from "axios-hooks";
 import { DeleteCarAction } from "./actions/DeleteCarAction.tsx";
 import { AddEditCarAction } from "./actions/AddEditCarAction.tsx";
-import { FaRegEdit } from "react-icons/fa";
+import { FaRecycle, FaRegEdit } from "react-icons/fa";
+import { Tooltip } from "react-tooltip";
 
 export const Cars = () => {
   const [{ data: carsData, loading, error }, carsDataRefetch] = useAxios<Car[]>(
@@ -31,6 +32,8 @@ export const Cars = () => {
               <th>Tablice</th>
               <th>Model</th>
               <th>Kilometraža</th>
+              <th>Poslednji servis na</th>
+              <th></th>
               <th></th>
             </tr>
           </thead>
@@ -41,6 +44,26 @@ export const Cars = () => {
                 <td>{car.licensePlate}</td>
                 <td>{car.model}</td>
                 <td>{car.distance} km</td>
+                <td>
+                  {car.lastServiceDistance > 0
+                    ? `${car.lastServiceDistance} km`
+                    : "--"}
+                </td>
+                <td>
+                  {car.distance - car.lastServiceDistance > 50000 && (
+                    <FaScrewdriverWrench
+                      className="me-4"
+                      data-tooltip-id="service-tooltip"
+                      data-tooltip-content="Potreban je servis!"
+                    />
+                  )}
+                  {car.distance > 30000 && (
+                    <FaRecycle
+                      data-tooltip-id="new-car-tooltip"
+                      data-tooltip-content="Potreban je novi auto!"
+                    />
+                  )}
+                </td>
                 <td className="text-end">
                   <AddEditCarAction
                     car={car}
@@ -61,6 +84,8 @@ export const Cars = () => {
           </tbody>
         </table>
       )}
+      <Tooltip id="service-tooltip"></Tooltip>
+      <Tooltip id="new-car-tooltip"></Tooltip>
     </>
   );
 };

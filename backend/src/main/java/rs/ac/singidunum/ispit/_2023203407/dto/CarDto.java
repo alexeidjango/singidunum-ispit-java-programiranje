@@ -16,4 +16,5 @@ public class CarDto {
     private String createdAt;
     private String updatedAt;
     private Double distance;
+    private Double lastServiceDistance;
 }

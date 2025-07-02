@@ -13,6 +13,7 @@ export interface Car {
   model: string;
   licensePlate: string;
   distance: number;
+  lastServiceDistance: number;
 }
 
 export interface Driver {

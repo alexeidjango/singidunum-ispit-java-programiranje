@@ -11,6 +11,7 @@ public class CarMapper {
         Car car = new Car();
         car.setModel(carDto.getModel());
         car.setLicensePlate(carDto.getLicensePlate());
+        car.setLastServiceDistance(carDto.getLastServiceDistance());
         return car;
     }
 
@@ -21,6 +22,7 @@ public class CarMapper {
         carDto.setLicensePlate(car.getLicensePlate());
         carDto.setCreatedAt(car.getCreatedAt().toString());
         carDto.setUpdatedAt(car.getUpdatedAt().toString());
+        carDto.setLastServiceDistance(car.getLastServiceDistance());
         List<Travel> travels = car.getTravels();
         Double distance = travels != null ? car.getTravels().stream().map((travel) -> travel.getDistance() * 1.0).reduce(0.0, Double::sum) : 0.0;
         carDto.setDistance(distance);

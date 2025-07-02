@@ -26,6 +26,7 @@
     "react-router": "^7.6.3",
     "react-router-dom": "^7.6.3",
     "react-select": "^5.10.1",
+    "react-tooltip": "^5.29.1",
     "yup": "^1.6.1"
   },
   "devDependencies": {

@@ -42,6 +42,7 @@ public class CarController {
         Car carEntity = carRepository.findById(carId).orElseThrow();
         carEntity.setLicensePlate(model.getLicensePlate());
         carEntity.setModel(model.getModel());
+        carEntity.setLastServiceDistance(model.getLastServiceDistance());
         Car savedCarEntity = carRepository.save(carEntity);
         return ResponseEntity.ok().body(CarMapper.toDto(savedCarEntity));
     }

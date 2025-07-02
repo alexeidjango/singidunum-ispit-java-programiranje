@@ -4,10 +4,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import rs.ac.singidunum.ispit._2023203407.dto.CarDto;
+import rs.ac.singidunum.ispit._2023203407.dto.DriverDto;
 import rs.ac.singidunum.ispit._2023203407.dto.TravelDto;
 import rs.ac.singidunum.ispit._2023203407.entities.Car;
 import rs.ac.singidunum.ispit._2023203407.entities.Driver;
 import rs.ac.singidunum.ispit._2023203407.entities.Travel;
+import rs.ac.singidunum.ispit._2023203407.mappers.CarMapper;
 import rs.ac.singidunum.ispit._2023203407.mappers.TravelMapper;
 import rs.ac.singidunum.ispit._2023203407.repositories.CarRepository;
 import rs.ac.singidunum.ispit._2023203407.repositories.DriverRepository;
@@ -39,6 +42,18 @@ public class TravelController {
         travelEntity.setCar(car);
         Travel savedTravel = travelRepository.save(travelEntity);
         return ResponseEntity.ok().body(TravelMapper.toDto(savedTravel));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<TravelDto> updateTravel(@PathVariable("id") Long travelId, @RequestBody TravelDto dto) {
+        Travel travelEntity = travelRepository.findById(travelId).orElseThrow();
+        Car car = carRepository.findById(dto.getCarId()).orElseThrow();
+        Driver driver = driverRepository.findById(dto.getDriverId()).orElseThrow();
+        travelEntity.setDriver(driver);
+        travelEntity.setCar(car);
+        travelEntity.setDistance(dto.getDistance());
+        Travel savedTravelEntity = travelRepository.save(travelEntity);
+        return ResponseEntity.ok().body(TravelMapper.toDto(savedTravelEntity));
     }
 
     @DeleteMapping("/{id}")
