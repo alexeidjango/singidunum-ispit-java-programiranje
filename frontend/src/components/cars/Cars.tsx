@@ -6,14 +6,27 @@ import { AddEditCarAction } from "./actions/AddEditCarAction.tsx";
 import { FaRecycle, FaRegEdit } from "react-icons/fa";
 import { Tooltip } from "react-tooltip";
 import { Link } from "react-router";
+import { TbCalendarSearch } from "react-icons/tb";
 
-export const Cars = () => {
+export const Cars = ({
+  onlyWithServiceRequired,
+}: {
+  onlyWithServiceRequired?: boolean;
+}) => {
+  const url = onlyWithServiceRequired ? "cars/with-service-required" : "cars";
   const [{ data: carsData, loading, error }, carsDataRefetch] = useAxios<Car[]>(
-    `${API_BASE_URL}/cars`,
+    `${API_BASE_URL}/${url}`,
   );
   return (
     <>
       <div className="d-flex justify-content-end py-4">
+        <a
+          href="/cars/with-service-required"
+          className="btn btn-link text-decoration-underline"
+        >
+          <TbCalendarSearch className="me-2" />
+          Sva vozila za servis
+        </a>
         <AddEditCarAction
           buttonClass="btn btn-primary"
           onSuccess={() => {

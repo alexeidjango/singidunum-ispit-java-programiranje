@@ -21,12 +21,20 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/v1/cars")
 @RequiredArgsConstructor
 public class CarController {
+    final long MAX_DISTANCE_WITHOUT_SERVICE = 50000;
+
     private final CarRepository carRepository;
     private final TravelRepository travelRepository;
 
     @GetMapping
     public List<CarDto> getCars() {
         return carRepository.findAll(Sort.by(Sort.Direction.DESC, "id"))
+                .stream().map(CarMapper::toDto).collect(Collectors.toList());
+    }
+
+    @GetMapping("/with-service-required")
+    public List<CarDto> getCarsRequiringService() {
+        return carRepository.findCarsWithTravelDistanceGreaterThanLastService(MAX_DISTANCE_WITHOUT_SERVICE)
                 .stream().map(CarMapper::toDto).collect(Collectors.toList());
     }
 

@@ -13,6 +13,10 @@ function App() {
         <Route path="/">
           <Route index element={<Cars />} />
           <Route path="cars" element={<Cars />} />
+          <Route
+            path="cars/with-service-required"
+            element={<Cars onlyWithServiceRequired={true} />}
+          />
           <Route path="cars/:id/travels" element={<Travels />} />
           <Route path="drivers" element={<Drivers />} />
           <Route path="travels" element={<Travels />} />
