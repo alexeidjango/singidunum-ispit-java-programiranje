@@ -46,7 +46,11 @@ export const AddEditTravelForm = ({
     resolver: yupResolver<AddEditTravelFormValues, unknown, unknown>(
       AddEditTravelSchema,
     ),
-    defaultValues: travel,
+    defaultValues: {
+      driverId: travel?.driver.id,
+      carId: travel?.car.id,
+      ...travel,
+    },
   });
   const [{ data: carsData }] = useAxios<Car[]>(`${API_BASE_URL}/cars`);
   const carOptions = (carsData || []).map((car) => ({
