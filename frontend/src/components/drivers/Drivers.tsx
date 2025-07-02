@@ -27,7 +27,6 @@ export const Drivers = () => {
         <table className="table table-hover text-start">
           <thead>
             <tr>
-              <th></th>
               <th>Ime</th>
               <th>Prezime</th>
               <th>JMBG / EBS</th>
@@ -37,7 +36,6 @@ export const Drivers = () => {
           <tbody>
             {driversData!.map((driver, idx) => (
               <tr key={idx}>
-                <td>{idx + 1}.</td>
                 <td>{driver.firstName}</td>
                 <td>{driver.lastName}</td>
                 <td>{driver.jmbg}</td>

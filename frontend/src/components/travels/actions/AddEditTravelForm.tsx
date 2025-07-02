@@ -72,7 +72,7 @@ export const AddEditTravelForm = ({
             className={classNames({
               "is-invalid": errors?.carId,
             })}
-            value={carOptions.find((option) => option.value === travel?.carId)}
+            value={carOptions.find((option) => option.value === travel?.car.id)}
           />
           {errors?.carId && (
             <span className="invalid-feedback">{errors.carId.message}</span>
@@ -92,7 +92,7 @@ export const AddEditTravelForm = ({
               "is-invalid": errors?.driverId,
             })}
             value={driverOptions.find(
-              (option) => option.value === travel?.driverId,
+              (option) => option.value === travel?.driver.id,
             )}
           />
           {errors?.driverId && (

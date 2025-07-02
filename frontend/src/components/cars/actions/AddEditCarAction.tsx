@@ -53,8 +53,8 @@ export const AddEditCarAction = ({
       >
         {(putError || postError) && (
           <div className="alert alert-danger" role="alert">
-            {putError?.response?.data.message}
-            {postError?.response?.data.message}
+            {putError?.response?.data.error}
+            {postError?.response?.data.error}
           </div>
         )}
         <AddEditCarForm

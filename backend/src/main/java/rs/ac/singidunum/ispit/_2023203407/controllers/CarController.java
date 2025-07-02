@@ -1,5 +1,6 @@
 package rs.ac.singidunum.ispit._2023203407.controllers;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Sort;
@@ -9,6 +10,7 @@ import rs.ac.singidunum.ispit._2023203407.dto.CarDto;
 import rs.ac.singidunum.ispit._2023203407.dto.TravelDto;
 import rs.ac.singidunum.ispit._2023203407.entities.Car;
 import rs.ac.singidunum.ispit._2023203407.exceptions.ResourceAlreadyExists;
+import rs.ac.singidunum.ispit._2023203407.exceptions.ResourceNotFoundException;
 import rs.ac.singidunum.ispit._2023203407.mappers.CarMapper;
 import rs.ac.singidunum.ispit._2023203407.mappers.TravelMapper;
 import rs.ac.singidunum.ispit._2023203407.repositories.CarRepository;
@@ -44,7 +46,7 @@ public class CarController {
     }
 
     @PostMapping
-    public ResponseEntity<CarDto> createCar(@RequestBody CarDto model) throws ResourceAlreadyExists {
+    public ResponseEntity<CarDto> createCar(@Valid @RequestBody CarDto model) throws ResourceAlreadyExists {
         try {
             Car savedCarEntity = carRepository.save(CarMapper.toEntity(model));
             return ResponseEntity.ok().body(CarMapper.toDto(savedCarEntity));
@@ -55,8 +57,8 @@ public class CarController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CarDto> updateCar(@PathVariable("id") Long carId, @RequestBody CarDto model) {
-        Car carEntity = carRepository.findById(carId).orElseThrow();
+    public ResponseEntity<CarDto> updateCar(@PathVariable("id") Long carId, @Valid @RequestBody CarDto model) {
+        Car carEntity = carRepository.findById(carId).orElseThrow(() -> new ResourceNotFoundException("No car found with id: " + carId));
         carEntity.setLicensePlate(model.getLicensePlate());
         carEntity.setModel(model.getModel());
         carEntity.setLastServiceDistance(model.getLastServiceDistance());
@@ -66,7 +68,7 @@ public class CarController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteCar(@PathVariable("id") Long carId) {
-        Car carEntity = carRepository.findById(carId).orElseThrow();
+        Car carEntity = carRepository.findById(carId).orElseThrow(() -> new ResourceNotFoundException("No car found with id: " + carId));
         carRepository.delete(carEntity);
         return ResponseEntity.ok("Car deleted.");
     }

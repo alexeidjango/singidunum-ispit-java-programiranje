@@ -1,5 +1,6 @@
 package rs.ac.singidunum.ispit._2023203407.controllers;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
@@ -7,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import rs.ac.singidunum.ispit._2023203407.dto.DriverDto;
 import rs.ac.singidunum.ispit._2023203407.entities.Driver;
 import rs.ac.singidunum.ispit._2023203407.exceptions.ResourceAlreadyExists;
+import rs.ac.singidunum.ispit._2023203407.exceptions.ResourceNotFoundException;
 import rs.ac.singidunum.ispit._2023203407.mappers.DriverMapper;
 import rs.ac.singidunum.ispit._2023203407.repositories.DriverRepository;
 
@@ -25,7 +27,7 @@ public class DriverController {
     }
 
     @PostMapping
-    public ResponseEntity<DriverDto> createDriver(@RequestBody DriverDto model) {
+    public ResponseEntity<DriverDto> createDriver(@Valid @RequestBody DriverDto model) {
         Driver driverEntity = DriverMapper.toEntity(model);
         try {
             Driver savedDriverEntity = driverRepository.save(driverEntity);
@@ -36,8 +38,8 @@ public class DriverController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<DriverDto> updateDriver(@PathVariable("id") Long driverId, @RequestBody DriverDto model) {
-        Driver driverEntity = driverRepository.findById(driverId).orElseThrow();
+    public ResponseEntity<DriverDto> updateDriver(@PathVariable("id") Long driverId, @Valid @RequestBody DriverDto model) {
+        Driver driverEntity = driverRepository.findById(driverId).orElseThrow(() -> new ResourceNotFoundException("No Driver found with id " + driverId));
         driverEntity.setJmbg(model.getJmbg());
         driverEntity.setFirstName(model.getFirstName());
         driverEntity.setLastName(model.getLastName());
@@ -47,7 +49,7 @@ public class DriverController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteDriver(@PathVariable("id") Long driverId) {
-        Driver driverEntity = driverRepository.findById(driverId).orElseThrow();
+        Driver driverEntity = driverRepository.findById(driverId).orElseThrow(() -> new ResourceNotFoundException("No Driver found with id " + driverId));
         driverRepository.delete(driverEntity);
         return ResponseEntity.ok("Driver deleted.");
     }

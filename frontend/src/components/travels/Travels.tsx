@@ -32,7 +32,6 @@ export const Travels = () => {
         <table className="table table-hover text-start">
           <thead>
             <tr>
-              <th></th>
               <th>Vozilo</th>
               <th>Vozač</th>
               <th>Kilometraža</th>
@@ -43,7 +42,6 @@ export const Travels = () => {
           <tbody>
             {travelsData!.map((travel, idx) => (
               <tr key={idx}>
-                <td>{idx + 1}.</td>
                 <td>
                   {travel.car.licensePlate} ({travel.car.model})
                 </td>

@@ -1,5 +1,6 @@
 package rs.ac.singidunum.ispit._2023203407.controllers;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +11,7 @@ import rs.ac.singidunum.ispit._2023203407.dto.TravelDto;
 import rs.ac.singidunum.ispit._2023203407.entities.Car;
 import rs.ac.singidunum.ispit._2023203407.entities.Driver;
 import rs.ac.singidunum.ispit._2023203407.entities.Travel;
+import rs.ac.singidunum.ispit._2023203407.exceptions.ResourceNotFoundException;
 import rs.ac.singidunum.ispit._2023203407.mappers.CarMapper;
 import rs.ac.singidunum.ispit._2023203407.mappers.TravelMapper;
 import rs.ac.singidunum.ispit._2023203407.repositories.CarRepository;
@@ -34,10 +36,10 @@ public class TravelController {
     }
 
     @PostMapping
-    public ResponseEntity<TravelDto> createTravel(@RequestBody TravelDto dto) {
+    public ResponseEntity<TravelDto> createTravel(@Valid @RequestBody TravelDto dto) {
         Travel travelEntity = TravelMapper.toEntity(dto);
-        Car car = carRepository.findById(dto.getCarId()).orElseThrow();
-        Driver driver = driverRepository.findById(dto.getDriverId()).orElseThrow();
+        Car car = carRepository.findById(dto.getCarId()).orElseThrow(() -> new ResourceNotFoundException("No car found with id " + dto.getCarId()));
+        Driver driver = driverRepository.findById(dto.getDriverId()).orElseThrow(() -> new ResourceNotFoundException("No driver found with id " + dto.getCarId()));
         travelEntity.setDriver(driver);
         travelEntity.setCar(car);
         Travel savedTravel = travelRepository.save(travelEntity);
@@ -45,10 +47,10 @@ public class TravelController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<TravelDto> updateTravel(@PathVariable("id") Long travelId, @RequestBody TravelDto dto) {
-        Travel travelEntity = travelRepository.findById(travelId).orElseThrow();
-        Car car = carRepository.findById(dto.getCarId()).orElseThrow();
-        Driver driver = driverRepository.findById(dto.getDriverId()).orElseThrow();
+    public ResponseEntity<TravelDto> updateTravel(@PathVariable("id") Long travelId, @Valid @RequestBody TravelDto dto) {
+        Travel travelEntity = travelRepository.findById(travelId).orElseThrow(() -> new ResourceNotFoundException("No travel found with id " + travelId));
+        Car car = carRepository.findById(dto.getCarId()).orElseThrow(() -> new ResourceNotFoundException("No car found with id " + dto.getCarId()));
+        Driver driver = driverRepository.findById(dto.getDriverId()).orElseThrow(() -> new ResourceNotFoundException("No driver found with id " + dto.getDriverId()));
         travelEntity.setDriver(driver);
         travelEntity.setCar(car);
         travelEntity.setDistance(dto.getDistance());
@@ -58,7 +60,7 @@ public class TravelController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteTravel(@PathVariable("id") Long travelId) {
-        Travel travelEntity = travelRepository.findById(travelId).orElseThrow();
+        Travel travelEntity = travelRepository.findById(travelId).orElseThrow(() -> new ResourceNotFoundException("No travel found with id " + travelId));
         travelRepository.delete(travelEntity);
         return ResponseEntity.ok("Travel deleted.");
     }
