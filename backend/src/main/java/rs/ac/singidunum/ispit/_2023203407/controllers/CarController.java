@@ -6,10 +6,13 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import rs.ac.singidunum.ispit._2023203407.dto.CarDto;
+import rs.ac.singidunum.ispit._2023203407.dto.TravelDto;
 import rs.ac.singidunum.ispit._2023203407.entities.Car;
 import rs.ac.singidunum.ispit._2023203407.exceptions.ResourceAlreadyExists;
 import rs.ac.singidunum.ispit._2023203407.mappers.CarMapper;
+import rs.ac.singidunum.ispit._2023203407.mappers.TravelMapper;
 import rs.ac.singidunum.ispit._2023203407.repositories.CarRepository;
+import rs.ac.singidunum.ispit._2023203407.repositories.TravelRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,11 +22,17 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class CarController {
     private final CarRepository carRepository;
+    private final TravelRepository travelRepository;
 
     @GetMapping
     public List<CarDto> getCars() {
         return carRepository.findAll(Sort.by(Sort.Direction.DESC, "id"))
                 .stream().map(CarMapper::toDto).collect(Collectors.toList());
+    }
+
+    @GetMapping("/{id}/travels")
+    public List<TravelDto> getTravelsForCar(@PathVariable("id") Long carId) {
+        return travelRepository.findAllByCarId(carId, Sort.by(Sort.Direction.DESC, "createdAt")).stream().map(TravelMapper::toDto).collect(Collectors.toList());
     }
 
     @PostMapping

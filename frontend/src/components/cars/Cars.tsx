@@ -5,6 +5,7 @@ import { DeleteCarAction } from "./actions/DeleteCarAction.tsx";
 import { AddEditCarAction } from "./actions/AddEditCarAction.tsx";
 import { FaRecycle, FaRegEdit } from "react-icons/fa";
 import { Tooltip } from "react-tooltip";
+import { Link } from "react-router";
 
 export const Cars = () => {
   const [{ data: carsData, loading, error }, carsDataRefetch] = useAxios<Car[]>(
@@ -43,7 +44,15 @@ export const Cars = () => {
                 <td>{idx + 1}.</td>
                 <td>{car.licensePlate}</td>
                 <td>{car.model}</td>
-                <td>{car.distance} km</td>
+                <td>
+                  {car.distance > 0 ? (
+                    <Link to={`/cars/${car.id}/travels`}>
+                      {car.distance} km
+                    </Link>
+                  ) : (
+                    <>--</>
+                  )}
+                </td>
                 <td>
                   {car.lastServiceDistance > 0
                     ? `${car.lastServiceDistance} km`

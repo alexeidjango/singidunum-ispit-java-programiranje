@@ -13,6 +13,7 @@ function App() {
         <Route path="/">
           <Route index element={<Cars />} />
           <Route path="cars" element={<Cars />} />
+          <Route path="cars/:id/travels" element={<Travels />} />
           <Route path="drivers" element={<Drivers />} />
           <Route path="travels" element={<Travels />} />
         </Route>

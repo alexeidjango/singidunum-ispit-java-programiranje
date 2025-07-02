@@ -5,11 +5,15 @@ import { FaRegEdit } from "react-icons/fa";
 import { AddEditTravelAction } from "./actions/AddEditTravelAction.tsx";
 import { FaPlus } from "react-icons/fa6";
 import { shortDateTime } from "../../format.ts";
+import { useParams } from "react-router";
 
 export const Travels = () => {
+  const { id } = useParams();
+  const carId = parseInt(id || "");
+  const url = carId ? `cars/${carId}/travels` : "travels";
   const [{ data: travelsData, loading, error }, travelsDataRefetch] = useAxios<
     Travel[]
-  >(`${API_BASE_URL}/travels`);
+  >(`${API_BASE_URL}/${url}`);
   return (
     <>
       <div className="d-flex justify-content-end py-4">
