@@ -1,10 +1,13 @@
 package rs.ac.singidunum.ispit._2023203407.controllers;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import rs.ac.singidunum.ispit._2023203407.dto.CarDto;
 import rs.ac.singidunum.ispit._2023203407.entities.Car;
+import rs.ac.singidunum.ispit._2023203407.exceptions.ResourceAlreadyExists;
 import rs.ac.singidunum.ispit._2023203407.mappers.CarMapper;
 import rs.ac.singidunum.ispit._2023203407.repositories.CarRepository;
 
@@ -19,13 +22,19 @@ public class CarController {
 
     @GetMapping
     public List<CarDto> getCars() {
-        return carRepository.findAll().stream().map(CarMapper::toDto).collect(Collectors.toList());
+        return carRepository.findAll(Sort.by(Sort.Direction.DESC, "id"))
+                .stream().map(CarMapper::toDto).collect(Collectors.toList());
     }
 
     @PostMapping
-    public ResponseEntity<CarDto> createCar(@RequestBody CarDto model) {
-        Car savedCarEntity = carRepository.save(CarMapper.toEntity(model));
-        return ResponseEntity.ok().body(CarMapper.toDto(savedCarEntity));
+    public ResponseEntity<CarDto> createCar(@RequestBody CarDto model) throws ResourceAlreadyExists {
+        try {
+            Car savedCarEntity = carRepository.save(CarMapper.toEntity(model));
+            return ResponseEntity.ok().body(CarMapper.toDto(savedCarEntity));
+        } catch (DataIntegrityViolationException e) {
+            throw new ResourceAlreadyExists("Vozilo sa ovim tablicama već postoji.");
+        }
+
     }
 
     @PutMapping("/{id}")
