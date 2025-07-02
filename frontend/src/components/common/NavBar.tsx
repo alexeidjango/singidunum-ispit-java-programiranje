@@ -8,9 +8,11 @@ export const NavBar = () => (
       </Link>
       <ul className="nav align-self-start d-flex">
         <li className="nav-item">
-          <Link to={"/cars"} className="btn btn-link nav-link">
+          {/*Using anchor instead of link simply as a hack to reload Cars page every*/}
+          {/*time and trigger component (and hence axios) refresh.*/}
+          <a href={"/cars"} className="btn btn-link nav-link">
             Vozila
-          </Link>
+          </a>
         </li>
         <li className="nav-item">
           <Link to="/drivers" className="btn btn-link nav-link">

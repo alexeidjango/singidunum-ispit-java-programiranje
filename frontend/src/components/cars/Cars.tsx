@@ -28,8 +28,8 @@ export const Cars = () => {
           <thead>
             <tr>
               <th></th>
-              <th>Model</th>
               <th>Tablice</th>
+              <th>Model</th>
               <th>Kilometraža</th>
               <th></th>
             </tr>
@@ -38,8 +38,8 @@ export const Cars = () => {
             {carsData!.map((car, idx) => (
               <tr key={idx}>
                 <td>{idx + 1}.</td>
-                <td>{car.model}</td>
                 <td>{car.licensePlate}</td>
+                <td>{car.model}</td>
                 <td>{car.distance} km</td>
                 <td className="text-end">
                   <AddEditCarAction

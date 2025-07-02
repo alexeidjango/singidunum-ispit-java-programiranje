@@ -25,4 +25,10 @@ export interface Driver {
 export interface Travel {
   id: number;
   distance: number;
+  carId: number;
+  driverId: number;
+  car: Car;
+  driver: Driver;
+  createdAt: string;
+  updatedAt: string;
 }

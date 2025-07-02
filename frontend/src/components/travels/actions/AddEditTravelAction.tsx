@@ -1,26 +1,26 @@
-import { API_BASE_URL, type Driver } from "../../../types.ts";
+import { API_BASE_URL, type Travel } from "../../../types.ts";
 import { type PropsWithChildren, useState } from "react";
 import { ModalForm } from "../../common/ModalForm.tsx";
-import { AddEditDriverForm } from "./AddEditDriverForm.tsx";
+import { AddEditTravelForm } from "./AddEditTravelForm.tsx";
 import useAxios from "axios-hooks";
 
-export interface AddEditDriverActionProps extends PropsWithChildren {
-  driver?: Driver;
+export interface AddEditTravelActionProps extends PropsWithChildren {
+  travel?: Travel;
   buttonClass?: string;
   onSuccess: () => void;
 }
 
-export const AddEditDriverAction = ({
-  driver,
+export const AddEditTravelAction = ({
+  travel,
   buttonClass,
   children,
   onSuccess,
-}: AddEditDriverActionProps) => {
+}: AddEditTravelActionProps) => {
   const [show, setShow] = useState(false);
   const [{ error: postError }, executePost] = useAxios(
     {
       method: "POST",
-      url: `${API_BASE_URL}/drivers`,
+      url: `${API_BASE_URL}/travels`,
     },
     {
       manual: true,
@@ -29,7 +29,7 @@ export const AddEditDriverAction = ({
   const [{ error: putError }, executePut] = useAxios(
     {
       method: "PUT",
-      url: `${API_BASE_URL}/drivers/` + driver?.id,
+      url: `${API_BASE_URL}/travels/` + travel?.id,
     },
     {
       manual: true,
@@ -45,11 +45,11 @@ export const AddEditDriverAction = ({
         {children}
       </button>
       <ModalForm
-        title={driver ? "Ažuriranje vozača" : "Dodajte novog vozača"}
+        title={travel ? "Ažuriranje putnog naloga" : "Dodajte putni nalog"}
         onCancel={() => setShow(false)}
         show={show}
         confirmBtnClass="btn-primary"
-        formId={"addEditDriverForm"}
+        formId={"addEditTravelForm"}
       >
         {(putError || postError) && (
           <div className="alert alert-danger" role="alert">
@@ -57,11 +57,11 @@ export const AddEditDriverAction = ({
             {postError?.response?.data.message}
           </div>
         )}
-        <AddEditDriverForm
-          formId={"addEditDriverForm"}
-          driver={driver}
+        <AddEditTravelForm
+          formId={"addEditTravelForm"}
+          travel={travel}
           handleSubmitFn={(values) => {
-            const executeFn = driver ? executePut : executePost;
+            const executeFn = travel ? executePut : executePost;
             executeFn({ data: { ...values } }).then(() => {
               onSuccess();
               setShow(false);

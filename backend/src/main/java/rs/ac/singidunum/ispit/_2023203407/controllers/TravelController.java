@@ -1,6 +1,7 @@
 package rs.ac.singidunum.ispit._2023203407.controllers;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import rs.ac.singidunum.ispit._2023203407.dto.TravelDto;
@@ -26,7 +27,7 @@ public class TravelController {
 
     @GetMapping
     public List<TravelDto> getTravels() {
-        return travelRepository.findAll().stream().map(TravelMapper::toDto).collect(Collectors.toList());
+        return travelRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt")).stream().map(TravelMapper::toDto).collect(Collectors.toList());
     }
 
     @PostMapping
@@ -38,5 +39,12 @@ public class TravelController {
         travelEntity.setCar(car);
         Travel savedTravel = travelRepository.save(travelEntity);
         return ResponseEntity.ok().body(TravelMapper.toDto(savedTravel));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteTravel(@PathVariable("id") Long travelId) {
+        Travel travelEntity = travelRepository.findById(travelId).orElseThrow();
+        travelRepository.delete(travelEntity);
+        return ResponseEntity.ok("Travel deleted.");
     }
 }

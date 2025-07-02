@@ -11,12 +11,16 @@ public class TravelMapper {
         travelDto.setCarId(travel.getCar().getId());
         travelDto.setCreatedAt(travel.getCreatedAt().toString());
         travelDto.setUpdatedAt(travel.getUpdatedAt().toString());
+        travelDto.setDistance(travel.getDistance());
+
+        travelDto.setCar(CarMapper.toDto(travel.getCar()));
+        travelDto.setDriver(DriverMapper.toDto(travel.getDriver()));
         return travelDto;
     }
 
     public static Travel toEntity(TravelDto travelDto) {
         Travel travel = new Travel();
-        travel.setDistance(travel.getDistance());
+        travel.setDistance(travelDto.getDistance());
         return travel;
     }
 }

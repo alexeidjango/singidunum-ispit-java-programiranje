@@ -33,10 +33,11 @@ export const AddEditDriverForm = ({
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm<AddEditDriverFormValues>({
-    resolver: yupResolver<AddEditDriverFormValues>(AddEditDriverSchema),
+    resolver: yupResolver<AddEditDriverFormValues, unknown, unknown>(
+      AddEditDriverSchema,
+    ),
     defaultValues: driver,
   });
   return (

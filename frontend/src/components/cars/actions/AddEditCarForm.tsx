@@ -30,10 +30,11 @@ export const AddEditCarForm = ({
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm<AddEditCarFormValues>({
-    resolver: yupResolver<AddEditCarFormValues>(AddEditCarSchema),
+    resolver: yupResolver<AddEditCarFormValues, unknown, unknown>(
+      AddEditCarSchema,
+    ),
     defaultValues: car,
   });
   return (
