@@ -36,7 +36,6 @@ export const AddEditCarForm = ({
     resolver: yupResolver<AddEditCarFormValues>(AddEditCarSchema),
     defaultValues: car,
   });
-  console.log("Errors were", errors);
   return (
     <form id={formId} onSubmit={handleSubmit(handleSubmitFn)}>
       <div className="row mb-4">

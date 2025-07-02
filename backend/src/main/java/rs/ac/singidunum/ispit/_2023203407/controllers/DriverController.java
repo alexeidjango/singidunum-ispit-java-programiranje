@@ -1,10 +1,12 @@
 package rs.ac.singidunum.ispit._2023203407.controllers;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import rs.ac.singidunum.ispit._2023203407.dto.DriverDto;
 import rs.ac.singidunum.ispit._2023203407.entities.Driver;
+import rs.ac.singidunum.ispit._2023203407.exceptions.ResourceAlreadyExists;
 import rs.ac.singidunum.ispit._2023203407.mappers.DriverMapper;
 import rs.ac.singidunum.ispit._2023203407.repositories.DriverRepository;
 
@@ -25,8 +27,12 @@ public class DriverController {
     @PostMapping
     public ResponseEntity<DriverDto> createDriver(@RequestBody DriverDto model) {
         Driver driverEntity = DriverMapper.toEntity(model);
-        Driver savedDriverEntity = driverRepository.save(driverEntity);
-        return ResponseEntity.ok().body(DriverMapper.toDto(savedDriverEntity));
+        try {
+            Driver savedDriverEntity = driverRepository.save(driverEntity);
+            return ResponseEntity.ok().body(DriverMapper.toDto(savedDriverEntity));
+        } catch (DataIntegrityViolationException e) {
+            throw new ResourceAlreadyExists("Vozač sa ovim matičnim brojem već postoji.");
+        }
     }
 
     @PutMapping("/{id}")

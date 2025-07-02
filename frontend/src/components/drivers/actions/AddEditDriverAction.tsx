@@ -1,26 +1,26 @@
-import { API_BASE_URL, type Car } from "../../../types.ts";
+import { API_BASE_URL, type Driver } from "../../../types.ts";
 import { type PropsWithChildren, useState } from "react";
 import { ModalForm } from "../../common/ModalForm.tsx";
-import { AddEditCarForm } from "./AddEditCarForm.tsx";
+import { AddEditDriverForm } from "./AddEditDriverForm.tsx";
 import useAxios from "axios-hooks";
 
-export interface AddEditCarActionProps extends PropsWithChildren {
-  car?: Car;
+export interface AddEditDriverActionProps extends PropsWithChildren {
+  driver?: Driver;
   buttonClass?: string;
   onSuccess: () => void;
 }
 
-export const AddEditCarAction = ({
-  car,
+export const AddEditDriverAction = ({
+  driver,
   buttonClass,
   children,
   onSuccess,
-}: AddEditCarActionProps) => {
+}: AddEditDriverActionProps) => {
   const [show, setShow] = useState(false);
   const [{ error: postError }, executePost] = useAxios(
     {
       method: "POST",
-      url: `${API_BASE_URL}/cars`,
+      url: `${API_BASE_URL}/drivers`,
     },
     {
       manual: true,
@@ -29,7 +29,7 @@ export const AddEditCarAction = ({
   const [{ error: putError }, executePut] = useAxios(
     {
       method: "PUT",
-      url: `${API_BASE_URL}/cars/` + car?.id,
+      url: `${API_BASE_URL}/drivers/` + driver?.id,
     },
     {
       manual: true,
@@ -45,7 +45,7 @@ export const AddEditCarAction = ({
         {children}
       </button>
       <ModalForm
-        title={car ? "Ažuriranje vozila" : "Dodajte novo vozilo"}
+        title={driver ? "Ažuriranje vozača" : "Dodajte novog vozača"}
         onCancel={() => setShow(false)}
         show={show}
         confirmBtnClass="btn-primary"
@@ -57,11 +57,11 @@ export const AddEditCarAction = ({
             {postError?.response?.data.message}
           </div>
         )}
-        <AddEditCarForm
+        <AddEditDriverForm
           formId={"addEditCardForm"}
-          car={car}
+          driver={driver}
           handleSubmitFn={(values) => {
-            const executeFn = car ? executePut : executePost;
+            const executeFn = driver ? executePut : executePost;
             executeFn({ data: { ...values } }).then(() => {
               onSuccess();
               setShow(false);
