@@ -4,6 +4,7 @@ import { Cars } from "./components/cars/Cars.tsx";
 import { Layout } from "./components/Layout.tsx";
 import { Drivers } from "./components/drivers/Drivers.tsx";
 import { Travels } from "./components/travels/Travels.tsx";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   // const [selectedTab, setSelectedTab] = useState(SelectedTab.CARS);
