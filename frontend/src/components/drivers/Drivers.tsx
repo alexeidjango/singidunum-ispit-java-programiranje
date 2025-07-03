@@ -36,23 +36,25 @@ export const Drivers = () => {
           <tbody>
             {driversData!.map((driver, idx) => (
               <tr key={idx}>
-                <td>{driver.firstName}</td>
-                <td>{driver.lastName}</td>
+                <td className="text-break w-25">{driver.firstName}</td>
+                <td className="text-break w-25">{driver.lastName}</td>
                 <td>{driver.jmbg}</td>
-                <td className="text-end">
-                  <AddEditDriverAction
-                    driver={driver}
-                    buttonClass="btn btn-link me-2"
-                    onSuccess={() => {
-                      driversDataRefetch();
-                    }}
-                  >
-                    <FaRegEdit />
-                  </AddEditDriverAction>
-                  <DeleteDriverAction
-                    driver={driver}
-                    onSuccess={() => driversDataRefetch()}
-                  />
+                <td>
+                  <div className="d-flex justify-content-end">
+                    <AddEditDriverAction
+                      driver={driver}
+                      buttonClass="btn btn-link me-2"
+                      onSuccess={() => {
+                        driversDataRefetch();
+                      }}
+                    >
+                      <FaRegEdit />
+                    </AddEditDriverAction>
+                    <DeleteDriverAction
+                      driver={driver}
+                      onSuccess={() => driversDataRefetch()}
+                    />
+                  </div>
                 </td>
               </tr>
             ))}

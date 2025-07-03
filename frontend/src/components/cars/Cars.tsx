@@ -54,7 +54,7 @@ export const Cars = ({
             {carsData!.map((car, idx) => (
               <tr key={idx}>
                 <td>{car.licensePlate}</td>
-                <td>{car.model}</td>
+                <td className="text-break w-25">{car.model}</td>
                 <td>
                   {car.distance > 0 ? (
                     <Link to={`/cars/${car.id}/travels`}>
@@ -70,34 +70,38 @@ export const Cars = ({
                     : "--"}
                 </td>
                 <td>
-                  {car.distance - car.lastServiceDistance > 50000 && (
-                    <FaScrewdriverWrench
-                      className="me-4"
-                      data-tooltip-id="service-tooltip"
-                      data-tooltip-content="Potreban je servis!"
-                    />
-                  )}
-                  {car.distance > 30000 && (
-                    <FaRecycle
-                      data-tooltip-id="new-car-tooltip"
-                      data-tooltip-content="Potreban je novi auto!"
-                    />
-                  )}
+                  <div className="d-flex">
+                    {car.distance - car.lastServiceDistance > 50000 && (
+                      <FaScrewdriverWrench
+                        className="me-4"
+                        data-tooltip-id="service-tooltip"
+                        data-tooltip-content="Potreban je servis!"
+                      />
+                    )}
+                    {car.distance > 30000 && (
+                      <FaRecycle
+                        data-tooltip-id="new-car-tooltip"
+                        data-tooltip-content="Potreban je novi auto!"
+                      />
+                    )}
+                  </div>
                 </td>
-                <td className="text-end">
-                  <AddEditCarAction
-                    car={car}
-                    buttonClass="btn btn-link me-2"
-                    onSuccess={() => {
-                      carsDataRefetch();
-                    }}
-                  >
-                    <FaRegEdit />
-                  </AddEditCarAction>
-                  <DeleteCarAction
-                    car={car}
-                    onSuccess={() => carsDataRefetch()}
-                  />
+                <td>
+                  <div className="d-flex justify-content-end">
+                    <AddEditCarAction
+                      car={car}
+                      buttonClass="btn btn-link me-2"
+                      onSuccess={() => {
+                        carsDataRefetch();
+                      }}
+                    >
+                      <FaRegEdit />
+                    </AddEditCarAction>
+                    <DeleteCarAction
+                      car={car}
+                      onSuccess={() => carsDataRefetch()}
+                    />
+                  </div>
                 </td>
               </tr>
             ))}

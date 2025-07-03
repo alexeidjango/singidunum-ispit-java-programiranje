@@ -42,28 +42,30 @@ export const Travels = () => {
           <tbody>
             {travelsData!.map((travel, idx) => (
               <tr key={idx}>
-                <td>
+                <td className="text-break w-25">
                   {travel.car.licensePlate} ({travel.car.model})
                 </td>
-                <td>
+                <td className="text-break w-25">
                   {travel.driver.firstName} {travel.driver.lastName}
                 </td>
                 <td>{travel.distance} km</td>
                 <td>{shortDateTime(travel.createdAt)}</td>
-                <td className="text-end">
-                  <AddEditTravelAction
-                    travel={travel}
-                    buttonClass="btn btn-link me-2"
-                    onSuccess={() => {
-                      travelsDataRefetch();
-                    }}
-                  >
-                    <FaRegEdit />
-                  </AddEditTravelAction>
-                  <DeleteTravelAction
-                    travel={travel}
-                    onSuccess={() => travelsDataRefetch()}
-                  />
+                <td>
+                  <div className="d-flex justify-content-end">
+                    <AddEditTravelAction
+                      travel={travel}
+                      buttonClass="btn btn-link me-2"
+                      onSuccess={() => {
+                        travelsDataRefetch();
+                      }}
+                    >
+                      <FaRegEdit />
+                    </AddEditTravelAction>
+                    <DeleteTravelAction
+                      travel={travel}
+                      onSuccess={() => travelsDataRefetch()}
+                    />
+                  </div>
                 </td>
               </tr>
             ))}

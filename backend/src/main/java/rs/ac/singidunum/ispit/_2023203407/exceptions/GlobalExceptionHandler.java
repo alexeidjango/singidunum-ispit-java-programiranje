@@ -37,10 +37,12 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
-        Map<String, String> errors = new HashMap<>();
+    public ResponseEntity<Map<String, Map<String, String>>> handleValidationExceptions(MethodArgumentNotValidException ex) {
+        Map<String, String> fieldErrors = new HashMap<>();
         ex.getBindingResult().getFieldErrors().forEach(error ->
-                errors.put(error.getField(), error.getDefaultMessage()));
+                fieldErrors.put(error.getField(), error.getDefaultMessage()));
+        Map<String, Map<String, String>> errors = new HashMap<>();
+        errors.put("fieldErrors", fieldErrors);
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 

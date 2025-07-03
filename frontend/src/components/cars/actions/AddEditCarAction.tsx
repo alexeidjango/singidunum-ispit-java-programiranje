@@ -51,7 +51,8 @@ export const AddEditCarAction = ({
         confirmBtnClass="btn-primary"
         formId={"addEditCardForm"}
       >
-        {(putError || postError) && (
+        {(putError?.response?.data.error ||
+          postError?.response?.data.error) && (
           <div className="alert alert-danger" role="alert">
             {putError?.response?.data.error}
             {postError?.response?.data.error}
@@ -60,6 +61,10 @@ export const AddEditCarAction = ({
         <AddEditCarForm
           formId={"addEditCardForm"}
           car={car}
+          serverErrors={
+            postError?.response?.data.fieldErrors ||
+            putError?.response?.data.fieldErrors
+          }
           handleSubmitFn={(values) => {
             const executeFn = car ? executePut : executePost;
             executeFn({ data: { ...values } }).then(() => {

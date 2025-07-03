@@ -20,10 +20,12 @@ public class DriverDto {
 
     @NotNull
     @NotBlank
+    @Length(max = 255)
     private String firstName;
 
     @NotNull
     @NotBlank
+    @Length(max = 255)
     private String lastName;
 
     @NotNull

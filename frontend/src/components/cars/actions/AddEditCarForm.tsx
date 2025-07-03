@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import classNames from "classnames";
+import { useEffect } from "react";
 
 export interface AddEditCarFormValues {
   licensePlate: string;
@@ -13,14 +14,18 @@ export interface AddEditCarFormValues {
 export interface AddEditCarFormProps {
   formId: string;
   car?: Car;
+  serverErrors?: Record<string, string>;
   handleSubmitFn: (values: AddEditCarFormValues) => void;
 }
 
 const AddEditCarSchema = Yup.object({
   licensePlate: Yup.string()
     .required("Unesite tablice.")
-    .min(3, "Broj tablica mora da ima najmanje 3 simbola."),
-  model: Yup.string().required("Unesite model vozila."),
+    .min(3, "Broj tablica mora da bude 3-15 simbola.")
+    .max(15, "Broj tablica mora da bude 3-15 simbola."),
+  model: Yup.string()
+    .required("Unesite model vozila.")
+    .max(255, "Model mora da bude ne duže 255 simbola."),
   lastServiceDistance: Yup.number()
     .required()
     .typeError("Pogrešan format.")
@@ -30,11 +35,13 @@ const AddEditCarSchema = Yup.object({
 export const AddEditCarForm = ({
   car,
   formId,
+  serverErrors,
   handleSubmitFn,
 }: AddEditCarFormProps) => {
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm<AddEditCarFormValues>({
     resolver: yupResolver<AddEditCarFormValues, unknown, unknown>(
@@ -42,6 +49,15 @@ export const AddEditCarForm = ({
     ),
     defaultValues: car,
   });
+  useEffect(() => {
+    if (serverErrors) {
+      Object.keys(serverErrors).forEach((key) => {
+        setError(key as keyof AddEditCarFormValues, {
+          message: serverErrors[key],
+        });
+      });
+    }
+  }, [setError, serverErrors]);
   return (
     <form id={formId} onSubmit={handleSubmit(handleSubmitFn)}>
       <div className="row mb-4">

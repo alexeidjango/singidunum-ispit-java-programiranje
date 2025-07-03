@@ -51,7 +51,8 @@ export const AddEditDriverAction = ({
         confirmBtnClass="btn-primary"
         formId={"addEditDriverForm"}
       >
-        {(putError || postError) && (
+        {(putError?.response?.data.error ||
+          postError?.response?.data.error) && (
           <div className="alert alert-danger" role="alert">
             {putError?.response?.data.error}
             {postError?.response?.data.error}
@@ -60,6 +61,10 @@ export const AddEditDriverAction = ({
         <AddEditDriverForm
           formId={"addEditDriverForm"}
           driver={driver}
+          serverErrors={
+            postError?.response?.data.fieldErrors ||
+            putError?.response?.data.fieldErrors
+          }
           handleSubmitFn={(values) => {
             const executeFn = driver ? executePut : executePost;
             executeFn({ data: { ...values } }).then(() => {

@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import classNames from "classnames";
+import { useEffect } from "react";
 
 export interface AddEditDriverFormValues {
   firstName: string;
@@ -13,12 +14,17 @@ export interface AddEditDriverFormValues {
 export interface AddEditDriverFormProps {
   formId: string;
   driver?: Driver;
+  serverErrors?: Record<string, string>;
   handleSubmitFn: (values: AddEditDriverFormValues) => void;
 }
 
 const AddEditDriverSchema = Yup.object({
-  firstName: Yup.string().required("Unesite ime."),
-  lastName: Yup.string().required("Unesite prezime."),
+  firstName: Yup.string()
+    .required("Unesite ime.")
+    .max(255, "Ne sme da ima više od 255 simbola."),
+  lastName: Yup.string()
+    .required("Unesite prezime.")
+    .max(255, "Ne sme da ima više od 255 simbola."),
   jmbg: Yup.string()
     .required("Unesite JMBG ili EBS.")
     .min(13, "Mora da ima tačno 13 cifara.")
@@ -28,11 +34,13 @@ const AddEditDriverSchema = Yup.object({
 export const AddEditDriverForm = ({
   driver,
   formId,
+  serverErrors,
   handleSubmitFn,
 }: AddEditDriverFormProps) => {
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm<AddEditDriverFormValues>({
     resolver: yupResolver<AddEditDriverFormValues, unknown, unknown>(
@@ -40,6 +48,15 @@ export const AddEditDriverForm = ({
     ),
     defaultValues: driver,
   });
+  useEffect(() => {
+    if (serverErrors) {
+      Object.keys(serverErrors).forEach((key) => {
+        setError(key as keyof AddEditDriverFormValues, {
+          message: serverErrors[key],
+        });
+      });
+    }
+  }, [setError, serverErrors]);
   return (
     <form id={formId} onSubmit={handleSubmit(handleSubmitFn)}>
       <div className="row mb-4">

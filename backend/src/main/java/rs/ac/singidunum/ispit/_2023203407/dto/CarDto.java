@@ -25,6 +25,7 @@ public class CarDto {
 
     @NotNull
     @NotBlank
+    @Length(max = 255)
     private String model;
 
     @ReadOnlyProperty
@@ -37,5 +38,6 @@ public class CarDto {
     private Double distance;
 
     @NotNull
+    @Min(0)
     private Double lastServiceDistance;
 }
